@@ -1,6 +1,7 @@
 require "nori"
 require "savon/soap_fault"
 require "savon/http_error"
+require "savon/zoyto_new_order_error"
 
 module Savon
   class Response
@@ -16,7 +17,7 @@ module Savon
     attr_reader :http, :globals, :locals
 
     def success?
-      !soap_fault? && !http_error?
+      !soap_fault? && !http_error? && !zoyto_error?
     end
     alias successful? success?
 
@@ -26,6 +27,10 @@ module Savon
 
     def http_error?
       HTTPError.present? @http
+    end
+
+    def zoyto_error?
+      ZoytoNewOrderError.present? @http
     end
 
     def header
@@ -69,6 +74,7 @@ module Savon
     def raise_soap_and_http_errors!
       raise SOAPFault.new(@http, nori) if soap_fault?
       raise HTTPError.new(@http) if http_error?
+      raise ZoytoNewOrderError.new(@http, nori) if zoyto_error?
     end
 
     def raise_invalid_response_error!
