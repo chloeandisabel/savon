@@ -32,6 +32,28 @@ describe Savon::ZoytoNewOrderError do
     end
   end
 
+  describe ".success?" do
+    it "returns false on Zotyo new order request failure" do
+      response = { :code => 200, :headers => {}, :body => Fixture.response(:zoyto_new_order_error) }
+      http = HTTPI::Response.new response[:code], response[:headers], response[:body]
+      global = Savon::GlobalOptions.new
+      global[:raise_errors] = false
+      response = Savon::Response.new(http, global, Savon::LocalOptions.new)
+      expect(response.success?).to be_false
+    end
+  end
+
+
+  describe ".new" do
+    it "should raise a Savon::ZoytoNewOrderError in case of a Zoyto new order failure" do
+      lambda {
+        response = { :code => 200, :headers => {}, :body => Fixture.response(:zoyto_new_order_error) }
+        http = HTTPI::Response.new response[:code], response[:headers], response[:body]
+        response = Savon::Response.new(http, Savon::GlobalOptions.new, Savon::LocalOptions.new)
+      }.should raise_error(Savon::ZoytoNewOrderError)
+    end
+  end
+
   [:message, :to_s].each do |method|
     describe "##{method}" do
       it "returns a Zoyto Error message" do
