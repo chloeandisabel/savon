@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <soap:Body>
+      <getOrderStatusResponse xmlns="http://zoyto.com/">
+         <getOrderStatusResult>
+            <timestamp>2014-03-13T20:15:36Z</timestamp>
+            <result_code>203</result_code>
+            <error_message></error_message>
+            <order_statuses>
+               <Order_Status>
+                  <client_order_id>785512958</client_order_id>
+                  <zoyto_order_id>0</zoyto_order_id>
+                  <order_status_code>NOT FOUND</order_status_code>
+                  <error_message>The order didn't get orderstatus.</error_message>
+               </Order_Status>
+            </order_statuses>
+         </getOrderStatusResult>
+      </getOrderStatusResponse>
+   </soap:Body>
+</soap:Envelope>

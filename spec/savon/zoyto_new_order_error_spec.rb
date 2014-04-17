@@ -16,6 +16,14 @@ describe Savon::ZoytoNewOrderError do
     end
   end
 
+  describe ".present? on getOrderStatusResponse" do
+    it "returns false if the HTTP response contains getOrderStatus" do
+      http = new_response(:body => Fixture.response(:zoyto_get_order_status_response))
+      Savon::ZoytoNewOrderError.present? http
+      expect(Savon::ZoytoNewOrderError.present? http).to be_false
+    end
+  end
+
   describe ".present?" do
     it "returns true if the HTTP response contains a Zoyto Error" do
       http = new_response(:body => Fixture.response(:zoyto_new_order_error))
